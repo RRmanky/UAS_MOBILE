@@ -1,48 +1,41 @@
-package com.example.myapplication
-
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MyApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+        setContentView(R.layout.activity_main)
+
+        fetchEvents()
+    }
+
+    private fun fetchEvents() {
+        // Menggunakan Coroutines untuk background process
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.instance.getAllEvents()
+
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    val events = apiResponse?.data
+
+                    // Log data ke console
+                    events?.forEach { event ->
+                        Log.d("API_TEST", "Event: ${event.title}, Status: ${event.status}")
+                    }
+
+                    Toast.makeText(this@MainActivity, "Berhasil load ${events?.size} events", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.e("API_TEST", "Error: ${response.code()}")
                 }
+            } catch (e: Exception) {
+                Log.e("API_TEST", "Exception: ${e.message}")
+                Toast.makeText(this@MainActivity, "Koneksi Gagal: ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
-    }
-}
-
-@Composable
-//new
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
     }
 }
