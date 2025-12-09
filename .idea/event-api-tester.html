@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event API Tester</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="icon"></span> Event API Tester</h1>
+            <p>Test & Monitor Event Management API</p>
+        </header>
+
+        <section class="api-section">
+            <div class="input-group">
+                <label for="apiUrl">API URL:</label>
+                <input type="url" id="apiUrl" value="http://localhost/api.php" placeholder="Enter API endpoint">
+            </div>
+        </section>
+
+        <main class="main-content">
+            <section class="create-section">
+                <h2><span class="icon">+</span> Create Event</h2>
+                <form id="createForm">
+                    <div class="input-group">
+                        <label for="eventName">Nama Event *</label>
+                        <input type="text" id="eventName" placeholder="Workshop Laravel" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="eventDate">Tanggal *</label>
+                        <input type="date" id="eventDate" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="eventTime">Waktu *</label>
+                        <input type="time" id="eventTime" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="eventLocation">Lokasi *</label>
+                        <input type="text" id="eventLocation" placeholder="Jakarta Convention Center" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="eventDesc">Deskripsi</label>
+                        <textarea id="eventDesc" rows="3" placeholder="Enter description..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Create Event</button>
+                </form>
+            </section>
+
+            <section class="quick-actions">
+                <h2><span class="icon"></span> Quick Actions</h2>
+                <div class="action-group">
+                    <button id="getAllBtn" class="btn-secondary"> Get All Events</button>
+                    <button id="getStatsBtn" class="btn-secondary"> Get Statistics</button>
+                </div>
+                <div class="action-group">
+                    <h3>Get by ID</h3>
+                    <input type="number" id="eventId" placeholder="Event ID" min="1">
+                    <button id="getByIdBtn" class="btn-secondary"> Get Event</button>
+                </div>
+                <div class="action-group">
+                    <h3>Update Event</h3>
+                    <input type="number" id="updateId" placeholder="Event ID" min="1">
+                    <button id="updateBtn" class="btn-secondary"> Update Event</button>
+                </div>
+            </section>
+        </main>
+
+        <section id="responseSection" class="response-section" style="display: none;">
+            <h2>Response</h2>
+            <pre id="responseOutput"></pre>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
